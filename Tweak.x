@@ -215,4 +215,4 @@ static void sendLog(NSString *cardKey, NSString *action, NSString *extra) {
 }
 
 %end
- 
+

@@ -1,0 +1,30 @@
+name: Build Tweak
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Theos
+        run: |
+          brew install theos
+          echo "THEOS=/usr/local/opt/theos" >> $GITHUB_ENV
+          echo "/usr/local/opt/theos/bin" >> $GITHUB_PATH
+      
+      - name: Download SDK
+        run: |
+          cd $THEOS
+          git clone --depth=1 https://github.com/theos/sdks
+      
+      - name: Build
+        run: |
+          make package
+      
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: BoYuCardKey
+          path: packages/*.deb
